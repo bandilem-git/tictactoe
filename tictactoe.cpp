@@ -233,11 +233,12 @@ int main(){
        }
        if (isWinner != 'C') {
             if (isWinner == 'D') {
-                DrawText("DRAW!", w/2 - 100, h, 60, RED);
+                DrawText("DRAW!", w/2 - 200, h/2, 60, RED);
             } else {
                 DrawText(TextFormat("Winner is: %c", isWinner), w/2 - 200, h/2, 60, RED);
             }
             DrawText("Press ESC to exit", w/2 - 100, h/2 + 70, 20, GRAY);
+            DrawText ("Press R to reset", w/2 - 100, h/2 + 50, 20, GRAY);
         }
 
         if (IsKeyPressed(KEY_R)) { //reset board
