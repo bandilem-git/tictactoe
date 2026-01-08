@@ -75,7 +75,7 @@ int main(){
     const int horizLine_2_y_end = vertLine_2;
     
     //Color of lines
-    const Color lineColor = BLACK;
+    const Color lineColor = WHITE;
 
     //set vline vectors 
     const Vector2 vLine1_startPos ={(float)vertLine_1,(float)vertLineHeight[0]};
@@ -112,14 +112,14 @@ int main(){
     while (!WindowShouldClose()){   
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
+        ClearBackground(BLACK);
        for (auto& x : playerMoves) {
         char sym[2] = { x.first, '\0' };
-        DrawText(sym, (int)x.second.x, (int)x.second.y, 50, BLACK);
+        DrawText(sym, (int)x.second.x, (int)x.second.y, 50, WHITE);
         }
 
         const char* mousePosText = TextFormat("Mouse: %i, %i", GetMouseX(), GetMouseY());
-        DrawText(mousePosText, 10, 10, 20, DARKGRAY);
+        DrawText(mousePosText, 10, 10, 20, WHITE);
         //Vertical lines {int startintX, int startintY}
         DrawLineEx(vLine1_startPos,vLine1_endPos,line_width,lineColor);
         DrawLineEx(vLine2_startPos,vLine2_endPos,line_width,lineColor);
