@@ -105,46 +105,83 @@ int main(){
             char playerSymbol = (player == 0) ? 'X' : 'O';
             Vector2 location = {(float)mouseX, (float)mouseY };
 
-            playerMoves.push_back({ playerSymbol, location });
 
             cout << "Mouse x: " << mouseX << endl;
             cout << "Mouse y: " << mouseY << endl;
 
             //find  top row 
-            //0
+            
+            bool canplace = true;
+
             if(mouseY <= horizLine_1_y_start){
                 if(mouseX <= vLine1_startPos.x){
-                    twoDimArr[0][0] = playerSymbol;
+                    if(twoDimArr[0][0] == '\0')
+                        twoDimArr[0][0] = playerSymbol;
+                    else{
+                        canplace = false;
+                    }
                 }
                 else if(mouseX >= vLine2_startPos.x){
-                    twoDimArr[0][2] = playerSymbol;
+                    if(twoDimArr[0][2] == '\0')
+                        twoDimArr[0][2] = playerSymbol;
+                    else{
+                        canplace = false;
+                    }
                 }
                 else{
-                    twoDimArr[0][1] = playerSymbol;
+                    if(twoDimArr[0][1] == '\0')
+                        twoDimArr[0][1] = playerSymbol;
+                    else{
+                        canplace = false;
+                    }
                 }
             }
             else if(mouseY > hLine1_startPos.y && mouseY <= hLine2_startPos.y){
                 //goes up going down
-                if(mouseX <= vLine1_startPos.x){
-                    twoDimArr[1][0] = playerSymbol;
+               if(mouseX <= vLine1_startPos.x){
+                    if(twoDimArr[1][0] == '\0')
+                        twoDimArr[1][0] = playerSymbol;
+                    else{
+                        canplace = false;
+                    }
                 }
                 else if(mouseX >= vLine2_startPos.x){
-                    twoDimArr[1][2] = playerSymbol;
+                    if(twoDimArr[1][2] == '\0')
+                        twoDimArr[1][2] = playerSymbol;
+                    else{
+                        canplace = false;
+                    }
                 }
                 else{
-                    twoDimArr[1][1] = playerSymbol;
+                    if(twoDimArr[1][1] == '\0')
+                        twoDimArr[1][1] = playerSymbol;
+                    else{
+                        canplace = false;
+                    }
                 }
             }
             else{
                 //goes up going down
-                if(mouseX <= vLine1_startPos.x){
-                    twoDimArr[2][0] = playerSymbol;
+               if(mouseX <= vLine1_startPos.x){
+                    if(twoDimArr[2][0] == '\0')
+                        twoDimArr[2][0] = playerSymbol;
+                    else{
+                        canplace = false;
+                    }
                 }
                 else if(mouseX >= vLine2_startPos.x){
-                    twoDimArr[2][2] = playerSymbol;
+                    if(twoDimArr[2][2] == '\0')
+                        twoDimArr[2][2] = playerSymbol;
+                    else{
+                        canplace = false;
+                    }
                 }
                 else{
-                    twoDimArr[2][1] = playerSymbol;
+                    if(twoDimArr[2][1] == '\0')
+                        twoDimArr[2][1] = playerSymbol;
+                    else{
+                        canplace = false;
+                    }
                 }
             }
                 for(int i = 0,count = 1; i < 3; i++){
@@ -156,6 +193,10 @@ int main(){
                         count++;
                     }  
                 }
+
+            
+            playerMoves.push_back({ playerSymbol, location });
+
                         
 
             player = (player == 0) ? 1 : 0;
@@ -164,16 +205,7 @@ int main(){
         EndDrawing();
     }
     CloseWindow();
-    
-    for(int i = 0,count = 1; i < 3; i++){
-        for(int j = 0; j < 3; j++){
-            cout << count<< ":"<< twoDimArr[i][j] << "\t";
-            if(count %3 == 0){
-                cout << endl;
-            }
-            count++;
-        }  
-    }
+
 
     for(int i = 0; i < 3; i++){
         delete[] twoDimArr[i];
