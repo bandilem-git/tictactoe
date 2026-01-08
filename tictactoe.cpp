@@ -16,6 +16,33 @@ bool isInbox(int w, int h){
     return false;
 }
 
+char AvailableWinner(char** game) {
+    // Check rows and columns
+    for (int i = 0; i < 3; i++) {
+
+        if (game[i][0] == game[i][1] && game[i][1] == game[i][2] && game[i][0] != '\0')
+            return game[i][0];
+        if (game[0][i] == game[1][i] && game[1][i] == game[2][i] && game[0][i] != '\0')
+            return game[0][i];
+    }
+
+    // Check diagonals
+    if (game[0][0] == game[1][1] && game[1][1] == game[2][2] && game[0][0] != '\0')
+        return game[0][0];
+    if (game[0][2] == game[1][1] && game[1][1] == game[2][0] && game[0][2] != '\0')
+        return game[0][2];
+
+    bool isFull = true;
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            if (game[i][j] == '\0') { 
+                isFull = false;
+                break;
+            }
+        }
+    }
+    return isFull ? 'D' : 'C';
+}
 int main(){
     // window constants
     const int w = 800;
@@ -63,7 +90,10 @@ int main(){
 
     //line width
     const float line_width = 20.0f;
+    //play logic 
     int player = 0;
+     char isWinner ='C' ;
+
 
     //player +position logic
     //turn player position
@@ -101,107 +131,123 @@ int main(){
         int mouseY = GetMouseY();
 
         Vector2 currentMouse = GetMousePosition();
-        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && isInbox(w, h)) {
-            char playerSymbol = (player == 0) ? 'X' : 'O';
-            Vector2 location = {(float)mouseX, (float)mouseY };
 
 
-            cout << "Mouse x: " << mouseX << endl;
-            cout << "Mouse y: " << mouseY << endl;
+        if(isWinner =='C'){
+            if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && isInbox(w, h)) {
+                char playerSymbol = (player == 0) ? 'X' : 'O';
+                Vector2 location = {(float)mouseX, (float)mouseY };
+                //find  top row 
+                
+                bool canplace = true;
+                const char* currWinner = TextFormat("");
 
-            //find  top row 
-            
-            bool canplace = true;
-
-            if(mouseY <= horizLine_1_y_start){
-                if(mouseX <= vLine1_startPos.x){
-                    if(twoDimArr[0][0] == '\0')
-                        twoDimArr[0][0] = playerSymbol;
-                    else{
-                        canplace = false;
-                    }
-                }
-                else if(mouseX >= vLine2_startPos.x){
-                    if(twoDimArr[0][2] == '\0')
-                        twoDimArr[0][2] = playerSymbol;
-                    else{
-                        canplace = false;
-                    }
-                }
-                else{
-                    if(twoDimArr[0][1] == '\0')
-                        twoDimArr[0][1] = playerSymbol;
-                    else{
-                        canplace = false;
-                    }
-                }
-            }
-            else if(mouseY > hLine1_startPos.y && mouseY <= hLine2_startPos.y){
-                //goes up going down
-               if(mouseX <= vLine1_startPos.x){
-                    if(twoDimArr[1][0] == '\0')
-                        twoDimArr[1][0] = playerSymbol;
-                    else{
-                        canplace = false;
-                    }
-                }
-                else if(mouseX >= vLine2_startPos.x){
-                    if(twoDimArr[1][2] == '\0')
-                        twoDimArr[1][2] = playerSymbol;
-                    else{
-                        canplace = false;
-                    }
-                }
-                else{
-                    if(twoDimArr[1][1] == '\0')
-                        twoDimArr[1][1] = playerSymbol;
-                    else{
-                        canplace = false;
-                    }
-                }
-            }
-            else{
-                //goes up going down
-               if(mouseX <= vLine1_startPos.x){
-                    if(twoDimArr[2][0] == '\0')
-                        twoDimArr[2][0] = playerSymbol;
-                    else{
-                        canplace = false;
-                    }
-                }
-                else if(mouseX >= vLine2_startPos.x){
-                    if(twoDimArr[2][2] == '\0')
-                        twoDimArr[2][2] = playerSymbol;
-                    else{
-                        canplace = false;
-                    }
-                }
-                else{
-                    if(twoDimArr[2][1] == '\0')
-                        twoDimArr[2][1] = playerSymbol;
-                    else{
-                        canplace = false;
-                    }
-                }
-            }
-                for(int i = 0,count = 1; i < 3; i++){
-                    for(int j = 0; j < 3; j++){
-                        cout << count<< ":"<< twoDimArr[i][j] << "\t";
-                        if(count %3 == 0){
-                            cout << endl;
+                
+                if(mouseY <= horizLine_1_y_start){
+                    if(mouseX <= vLine1_startPos.x){
+                        if(twoDimArr[0][0] == '\0')
+                            twoDimArr[0][0] = playerSymbol;
+                        else{
+                            canplace = false;
                         }
-                        count++;
-                    }  
+                    }
+                    else if(mouseX >= vLine2_startPos.x){
+                        if(twoDimArr[0][2] == '\0')
+                            twoDimArr[0][2] = playerSymbol;
+                        else{
+                            canplace = false;
+                        }
+                    }
+                    else{
+                        if(twoDimArr[0][1] == '\0')
+                            twoDimArr[0][1] = playerSymbol;
+                        else{
+                            canplace = false;
+                        }
+                    }
                 }
-
-            
-            playerMoves.push_back({ playerSymbol, location });
-
-                        
-
-            player = (player == 0) ? 1 : 0;
+                else if(mouseY > hLine1_startPos.y && mouseY <= hLine2_startPos.y){
+                    //goes up going down
+                if(mouseX <= vLine1_startPos.x){
+                        if(twoDimArr[1][0] == '\0')
+                            twoDimArr[1][0] = playerSymbol;
+                        else{
+                            canplace = false;
+                        }
+                    }
+                    else if(mouseX >= vLine2_startPos.x){
+                        if(twoDimArr[1][2] == '\0')
+                            twoDimArr[1][2] = playerSymbol;
+                        else{
+                            canplace = false;
+                        }
+                    }
+                    else{
+                        if(twoDimArr[1][1] == '\0')
+                            twoDimArr[1][1] = playerSymbol;
+                        else{
+                            canplace = false;
+                        }
+                    }
+                }
+                else{
+                    //goes up going down
+                if(mouseX <= vLine1_startPos.x){
+                        if(twoDimArr[2][0] == '\0')
+                            twoDimArr[2][0] = playerSymbol;
+                        else{
+                            canplace = false;
+                        }
+                    }
+                    else if(mouseX >= vLine2_startPos.x){
+                        if(twoDimArr[2][2] == '\0')
+                            twoDimArr[2][2] = playerSymbol;
+                        else{
+                            canplace = false;
+                        }
+                    }
+                    else{
+                        if(twoDimArr[2][1] == '\0')
+                            twoDimArr[2][1] = playerSymbol;
+                        else{
+                            canplace = false;
+                        }
+                    }
+                }
+                    for(int i = 0,count = 1; i < 3; i++){
+                        for(int j = 0; j < 3; j++){
+                            cout << count<< ":"<< twoDimArr[i][j] << "\t";
+                            if(count %3 == 0){
+                                cout << endl;
+                            }
+                            count++;
+                        }  
+                    }
+                    std::cout<< endl;
+                if(canplace){ 
+                    playerMoves.push_back({ playerSymbol, location });
+                    player = (player == 0) ? 1 : 0;
+                    isWinner = AvailableWinner(twoDimArr);
+                }
+    }
+       }
+       if (isWinner != 'C') {
+            if (isWinner == 'D') {
+                DrawText("DRAW!", w/2 - 100, h, 60, RED);
+            } else {
+                DrawText(TextFormat("Winner is: %c", isWinner), w/2 - 200, h/2, 60, RED);
+            }
+            DrawText("Press ESC to exit", w/2 - 100, h/2 + 70, 20, GRAY);
         }
-       
+
+        if (IsKeyPressed(KEY_R)) { //reset board
+                for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) twoDimArr[i][j] = '\0';
+            }
+            playerMoves.clear();
+            isWinner = 'C';
+            player = 0;
+        }
         EndDrawing();
     }
     CloseWindow();
