@@ -43,6 +43,7 @@ char AvailableWinner(char** game) {
     }
     return isFull ? 'D' : 'C';
 }
+
 int main(){
     // window constants
     const int w = 800;
@@ -233,7 +234,7 @@ int main(){
        }
        if (isWinner != 'C') {
             if (isWinner == 'D') {
-                DrawText("DRAW!", w/2 - 200, h/2, 60, RED);
+                DrawText("DRAW!", w/2 - 250, h/2, 60, RED);
             } else {
                 DrawText(TextFormat("Winner is: %c", isWinner), w/2 - 200, h/2, 60, RED);
             }
